@@ -75,5 +75,39 @@ namespace PharmacyOrderingWebsite.Services
 
             return true;
         }
+        public async Task<object> GetUserFullDetails(int userId)
+        {
+            var user = await _context.Users
+                .Where(u => u.Id == userId)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Name,
+                    u.Email,
+
+                    Orders = _context.Orders
+                        .Where(o => o.UserId == userId)
+                        .Select(o => new
+                        {
+                            o.Id,
+                            o.TotalAmount,
+                            o.Status,
+                            o.CreatedAt,
+                            o.Items
+                        }).ToList(),
+
+                    Prescriptions = _context.Prescriptions
+                        .Where(p => p.UserId == userId)
+                        .Select(p => new
+                        {
+                            p.Id,
+                            p.FilePath,
+                            p.Status
+                        }).ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            return user!;
+        }
     }
 }

@@ -86,5 +86,12 @@ namespace PharmacyOrderingWebsite.Controllers
 
             return Ok("User deleted successfully");
         }
+        [HttpGet("{id}/details")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUserFullDetails(int id)
+        {
+            var data = await _userService.GetUserFullDetails(id);
+            return Ok(data);
+        }
     }
 }

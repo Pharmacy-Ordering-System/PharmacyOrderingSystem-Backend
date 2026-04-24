@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PharmacyOrderingWebsite.Configurations;
@@ -69,7 +70,8 @@ namespace PharmacyOrderingSystem
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = jwtIssuer,
                         ValidAudience = jwtAudience,
-                        IssuerSigningKey = new SymmetricSecurityKey(key)
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        RoleClaimType = System.Security.Claims.ClaimTypes.Role
                     };
                 });
 
@@ -136,6 +138,22 @@ namespace PharmacyOrderingSystem
 
             app.UseMiddleware<RateLimitingMiddleware>();
 
+            app.UseStaticFiles();
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+
+            if (!Directory.Exists(uploadPath))
+            {
+                Directory.CreateDirectory(uploadPath);
+            }
+
+            // 🔥 YOUR STATIC FILE CODE
+            app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(uploadPath),
+                RequestPath = "/uploads"
+            });
             app.UseHttpsRedirection();
 
 

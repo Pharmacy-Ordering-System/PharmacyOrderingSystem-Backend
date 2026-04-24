@@ -7,5 +7,6 @@ namespace PharmacyOrderingWebsite.Models
         public Medicine? Medicine { get; set; }
 
         public int Stock { get; set; }
+        public DateTime? ExpiryDate { get; set; }
     }
 }
