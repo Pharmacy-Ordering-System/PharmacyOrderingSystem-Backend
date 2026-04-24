@@ -37,5 +37,12 @@ namespace PharmacyOrderingWebsite.Controllers
             var data = await _service.GetAllInventory();
             return Ok(data);
         }
+        [Authorize(Roles = "Admin")]
+        [HttpGet("expiring")]
+        public async Task<IActionResult> GetExpiring()
+        {
+            var data = await _service.GetExpiringSoon();
+            return Ok(data);
+        }
     }
 }
