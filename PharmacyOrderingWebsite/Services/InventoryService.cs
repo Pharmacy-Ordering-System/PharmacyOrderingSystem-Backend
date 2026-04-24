@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PharmacyOrderingWebsite.Data;
 using PharmacyOrderingWebsite.Models;
 using System;
@@ -30,7 +30,8 @@ namespace PharmacyOrderingWebsite.Services
                 inventory = new Inventory
                 {
                     MedicineId = medicineId,
-                    Stock = quantity
+                    Stock = quantity,
+                    ExpiryDate = DateTime.UtcNow.AddDays(30) // ✅ ADD THIS
                 };
 
                 _context.Inventories.Add(inventory);
@@ -38,11 +39,11 @@ namespace PharmacyOrderingWebsite.Services
             else
             {
                 inventory.Stock = quantity;
+                inventory.ExpiryDate = DateTime.UtcNow.AddDays(30); // ✅ ADD THIS
             }
 
             await _context.SaveChangesAsync();
         }
-
         public async Task ReduceStock(int medicineId, int quantity)
         {
             if (quantity <= 0)
