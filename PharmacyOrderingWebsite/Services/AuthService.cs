@@ -3,9 +3,7 @@ using PharmacyOrderingWebsite.Data;
 using PharmacyOrderingWebsite.DTOs;
 using PharmacyOrderingWebsite.Helpers;
 using PharmacyOrderingWebsite.Models;
-using PharmacyOrderingWebsite.DTOs;
-using PharmacyOrderingWebsite.Helpers;
-using PharmacyOrderingWebsite.Models;
+
 
 namespace PharmacyOrderingWebsite.Services
 {
