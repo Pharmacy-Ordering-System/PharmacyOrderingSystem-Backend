@@ -25,8 +25,8 @@ namespace PharmacyOrderingWebsite.Controllers
             try
             {
                 //Get userId from token safely
-                var userIdClaim = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
-
+                //var userIdClaim = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+                var userIdClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier"))?.Value;
                 if (userIdClaim == null)
                     return Unauthorized("Invalid token");
 

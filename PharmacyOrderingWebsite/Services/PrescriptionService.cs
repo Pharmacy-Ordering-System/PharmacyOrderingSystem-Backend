@@ -27,7 +27,7 @@ namespace PharmacyOrderingWebsite.Services
                 var prescription = new Prescription
                 {
                     UserId = userId,
-                    FilePath = path,
+                    FilePath = "/uploads/" + Path.GetFileName(path),
                     Status = PrescriptionStatus.Pending
                 };
 
